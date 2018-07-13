@@ -1,0 +1,38 @@
+index.html
+-Main page of the website
+-Contains all the public memes that can be viewed
+
+profile.html
+-contains the user profile
+-shows all the memes that the user has posted
+
+meme1.html
+- the first meme
+meme2.html
+- the second meme
+meme3.html
+- the third meme
+meme4.html
+- the fourth meme
+meme5.html
+- the fifth meme
+meme6.html
+- the sixth meme
+meme7.html
+- the seventh meme
+meme8.html
+- the eight meme
+meme9.html
+- the ninth meme
+meme10.html
+- the tenth meme
+meme11.html
+- the eleventh meme
+meme12.html
+- the twelvth meme
+meme13.html
+- the thirteenth meme
+meme14.html
+- the fourteenth meme
+meme15.html
+- the fifteenth meme
