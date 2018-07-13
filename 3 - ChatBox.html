@@ -1,0 +1,195 @@
+
+<html>
+	
+	<head>
+		<script src="jquery-3.3.1.min.js"></script>
+		<style type="text/css">
+
+			body{
+				display:flex;
+				width:100%;
+				margin:0px;
+				flex-direction:column;
+				height:100%;
+				font-family:Arial, sans-serif;
+			}
+
+			#chat_container{
+				background-color:#eee;
+				width:100%;
+				flex:8;
+				height:1px;
+				overflow-y:auto;
+			}
+
+
+			.chatbox{
+				color:white;
+				margin:10px;
+				padding:10px;
+				padding-bottom: 20px;
+				display:inline-block;
+				overflow-y:auto;
+			}
+
+			.chatbox_left{
+				background-color:#4c4;
+				-moz-clip-path:polygon(0% 0%, 100% 0%, 100% 75%, 20px 75%, 
+					10px 100%, 10px 75%, 0% 75%);
+				clip-path:polygon(0% 0%, 100% 0%, 100% 75%, 20px 75%, 
+					10px 100%, 10px 75%, 0% 75%);
+				-webkit-clip-path:polygon(0% 0%, 100% 0%, 100% 75%, 20px 75%, 
+					10px 100%, 10px 75%, 0% 75%);
+					
+			}
+
+			#chat_input_container{
+				flex:1;
+				background-color:white;
+				display:flex;
+				flex-direction:row;
+				width:100%;
+				font-size:1.1rem;
+				margin:0px;
+			}
+
+			#chat_input{
+				flex:7;
+				padding-left:20px;
+				font-size:1.1rem;
+			}
+
+			#chat_submit{
+				flex:1;
+				background-color:#4b4;
+				color:white;
+				display:flex;
+				transition-duration:1s;
+				transition-property:all;
+				transition-timing-function: ease;
+			}
+
+			#chat_submit span{
+				margin:auto;
+			}
+
+			#chat_submit:hover{
+				background-color:#2a2;
+				box-shadow: 0px 0px 2px rgba(30,30,30,0.3);
+			}
+
+			#chat_box_container span{
+				margin:0px;
+				color:#eee;
+				font-size:0.75em;
+			}
+
+		</style>
+
+		<script>
+			var chats = [];
+
+			var Chat = function(message, date){
+				this.message = message;
+				this.date=date;
+			};
+
+			// var new_chat_box_container = document.createElement("div");	
+			// new_chat_box_container.id = "chat_box_container";
+			// var new_chat_box = document.createElement("div");
+			// new_chat_box.className += "chatbox chatbox_left";
+			// var new_time_box = document.createElement("span");
+			// new_chat_box.appendChild(new_time_box);
+			// new_chat_box_container.appendChild(new_chat_box);
+
+			$(document).ready(function(){
+
+				$("#chat_submit").click(addNewChat);
+
+				$("#chat_input_container").submit(function(e){
+					e.preventDefault();
+					addNewChat();
+				});
+
+				function addNewChat(){
+					var user_input = $("#chat_input").val();
+
+					if(user_input.trim() != ""){
+						var new_chat_box_container = document.createElement("div");
+						new_chat_box_container.id = "chat_box_container";
+						var new_chat_box = document.createElement("div");
+						new_chat_box.className += "chatbox chatbox_left";
+						var new_time_box = document.createElement("span");
+
+						// var $clone = $(new_chat_box_container).clone();
+
+						// add in the id and the text of the new chat box
+						new_chat_box.id = chats.length;
+						new_chat_box.textContent = user_input;
+
+						// add in message to chats []
+						var d = new Date();
+						var time = d.getHours() + ":" + d.getMinutes();
+						chats.push(new Chat(user_input, time));
+
+						// place the new chat box inside the chat container
+						new_chat_box.appendChild(new_time_box);
+						new_chat_box_container.appendChild(new_chat_box);
+
+						$(new_chat_box_container).hide();
+						// $clone.hide();
+
+						$("#chat_container").append(new_chat_box_container);
+						// $("#chat_container").append($clone);
+						$(new_chat_box_container).show(500);
+						// $clone.show(500);
+
+						scrollToBottomChatBox();
+					}
+				}
+
+				$(document).on("mouseover", ".chatbox", function(){
+					var id = this.id;
+					var date = chats[id].date;
+					var $date_span = $(this).find("span");
+					$date_span.stop().hide();
+					$date_span.text(date);
+					$date_span.css({marginLeft:"10px"});
+					$date_span.stop().show(250);
+
+				});
+
+				$(document).on("mouseout", ".chatbox", function(){
+					var $date_span = $(this).find("span");
+					$date_span.stop().hide(250, function(){
+						$date_span.text("");
+						$date_span.css({marginLeft:"0px"});
+					});
+				});
+			});
+
+			function scrollToBottomChatBox(){
+				var height = $("#chat_container")[0].scrollHeight;
+				$("#chat_container").stop().animate({scrollTop: height},1000);
+			}
+		</script>
+	</head>
+
+	<body>	
+		<div id="chat_container">
+			<div class="chat_box_container">
+				<div class="chatbox chatbox_left">
+					Hi
+					<span></span>
+				</div>
+			</div>
+			
+		</div>
+		<form id="chat_input_container">
+			<input type="text" id="chat_input" />
+			<div id="chat_submit"> <span>Submit</span> </div>
+		</form>
+
+	</body>
+
+</html>
